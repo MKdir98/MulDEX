@@ -1,19 +1,26 @@
-name: Build on master merge
+name: Build and Release
+
 on:
   push:
     branches:
       - master
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: install libs
+      - name: Install dependencies
         run: yarn install
-      - name: install libs
+      - name: Build project
         run: yarn blueprint build
-      - name: Create version folder
-        run: mkdir version-$GITHUB_SHA
-      - name: Copy build to version folder
-        run: cp -r build/* version-$GITHUB_SHA/
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.sha }}
+          release_name: Release ${{ github.sha }}
+          body: Release of version ${{ github.sha }}
