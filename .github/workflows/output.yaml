@@ -16,7 +16,7 @@ jobs:
       - name: Build project
         run: yarn blueprint build
       - name: create tag
-        run: git tag ${{ github.sha }}
+        run: git tag ${{ github.ref }}
       - name: push tag
         run: git push
       - name: Create Release
@@ -25,7 +25,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.sha }}
-          release_name: Release ${{ github.sha }}
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
