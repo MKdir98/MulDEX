@@ -30,5 +30,7 @@ jobs:
         with:
           tag_name: ${{ steps.vars.outputs.sha_short }}
           release_name: Release ${{ steps.vars.outputs.sha_short }}
+          asset_path: build/
+          asset_name: build.zip
           draft: false
           prerelease: false
