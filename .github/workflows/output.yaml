@@ -15,21 +15,11 @@ jobs:
         run: yarn install
       - name: Build project
         run: yarn blueprint build
-      - name: Set outputs
-        id: vars
-        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-      - name: create tag
-        run: git tag ${{ steps.vars.outputs.sha_short }}
-      - name: push tag
-        run: git push
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Generate the artifacts
+        uses: skx/github-action-build@master
+      - name: Upload the artifacts
+        uses: skx/github-action-publish-binaries@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.vars.outputs.sha_short }}
-          release_name: Release ${{ steps.vars.outputs.sha_short }}
-          draft: false
-          prerelease: false
-          body_path: build
+          args: '*'
