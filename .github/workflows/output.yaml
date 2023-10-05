@@ -15,15 +15,8 @@ jobs:
         run: yarn install
       - name: Build project
         run: yarn blueprint build
-      - name: Create tag
-        id: create_tag
-        uses: spencerjpotts/create-tag@v1.0.1
-        with:
-          tag_name: ${{ github.sha }}
-          ref: ${{ github.sha }}
-          message: 'Release ${{ github.sha }}'
-      - name: Create release
-        id: create_release
+      - name: Create tag and release
+        id: create_tag_and_release
         uses: actions/create-release@v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -32,13 +25,3 @@ jobs:
           release_name: Release ${{ github.sha }}
           draft: false
           prerelease: false
-      - name: Upload release asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1.0.2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./contracts/
-          asset_name: build.zip
-          asset_content_type: application/zip
