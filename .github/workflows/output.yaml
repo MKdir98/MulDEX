@@ -15,8 +15,9 @@ jobs:
         run: yarn install
       - name: Build project
         run: yarn blueprint build
-      - name: push tag
+      - name: create tag
         run: git tag ${{ github.sha }}
+      - name: push tag
         run: git push
       - name: Create Release
         id: create_release
