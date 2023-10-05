@@ -1,0 +1,19 @@
+name: Build on master merge
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: install libs
+        run: yarn install
+      - name: install libs
+        run: yarn blueprint build
+      - name: Create version folder
+        run: mkdir version-$GITHUB_SHA
+      - name: Copy build to version folder
+        run: cp -r build/* version-$GITHUB_SHA/
