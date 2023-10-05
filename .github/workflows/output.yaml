@@ -15,13 +15,13 @@ jobs:
         run: yarn install
       - name: Build project
         run: yarn blueprint build
-      - name: Create tag and release
-        id: create_tag_and_release
-        uses: actions/create-release@v1.0.0
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.sha }}
-          release_name: Release ${{ github.sha }}
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
