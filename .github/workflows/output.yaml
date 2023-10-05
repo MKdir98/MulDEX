@@ -16,7 +16,7 @@ jobs:
       - name: Build project
         run: yarn blueprint build
       - name: Upload build
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: build
-          path: ${{ github.workspace}} build/
+          path: ${{ env.main_project_module }}/build/
