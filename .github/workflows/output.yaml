@@ -15,6 +15,8 @@ jobs:
         run: yarn install
       - name: Build project
         run: yarn blueprint build
+      - name: create zip file from build folder
+        run: zip -r -q build.zip build
       - name: Set outputs
         id: vars
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
@@ -35,6 +37,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} 
-          asset_path: ./build
-          asset_name: build
+          asset_path: ./build.zip
+          asset_name: build.zip
           asset_content_type: application/zip
